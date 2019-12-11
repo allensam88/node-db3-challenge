@@ -35,10 +35,10 @@ function findSteps(id) {
         .orderBy('steps.step_number')
         .join('schemes', 'steps.scheme_id', 'schemes.id')
         .where('schemes.id', id)
-        // SELECT * FROM steps
-        // JOIN schemes ON steps.scheme_id = schemes.id
-        // WHERE schemes.id = 1 
-        // ORDER BY steps.step_number;
+    // SELECT * FROM steps
+    // JOIN schemes ON steps.scheme_id = schemes.id
+    // WHERE schemes.id = 1 
+    // ORDER BY steps.step_number;
 }
 
 // add(scheme):
@@ -73,12 +73,11 @@ function update(changes, id) {
 // Resolves to null on an invalid id.
 // (Hint: Only worry about removing the scheme. The database is configured to automatically remove all associated steps.)
 function remove(id) {
+    const deletedSchema = findById(id).then(item => item);
     return db('schemes')
-    .then(id => {
-            findById(id)
-            
-            .where({ id })
-            .del()
-            
+        .where({ id })
+        .del()
+        .then(count => {
+            return deletedSchema
         })
 }
